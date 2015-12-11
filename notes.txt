@@ -1,0 +1,47 @@
+ 
+Number of Rows in Train:  260753 Number of columns:  299
+Number of Rows in Test:  173836 Number of columns:  298
+
+Removing all columns w/ missing values from all training/test: 143 columns left 
+
+
+TODO: 
+re-factor into new script that uses gridsearch CV
+optimize params for other algos w/ gridsearch CV
+if promising: try to combine models
+submit final solution and upload files to Git 
+
+
+RandomForest Param optimization: 
+criterion: optimized to entropy (very early - re-opt)
+num_ensembles: set to 100 (can run 300 but slow)
+max_features: limiting does not help but 25 is enough (sqrt(N))
+max_depth: stabablized at 20-40 (may need higher for higher max features)
+class_weight: no clear effect 
+criterion: no diff (gini faster) w/ a few different param settings 
+min_samples_split: small diff between 1,2,3. Near 100, in-sample went down, oos good (less variance)
+                    - set at 20
+
+
+Current Best Model: 
+Input: 
+drop_na_cols = True #cannot set this to False. TODO: use Imputer class to handle missing values
+n_estimators = 300 #minimal improvement past 300 
+max_depth = 100
+max_features = 25 
+min_samples_split = 20
+min_samples_leaf = 1
+criterion = "gini" 
+class_weight = None  
+train_size = 120000
+test_size = 20000
+cv_iterations = 1
+optimize_param = 'min_samples_leaf'
+grid = [1]
+seed = 60
+
+Output: 
+in-sample: 0.995
+out-sample: 0.96
+
+Runtime: 590.989000082 s
